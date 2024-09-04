@@ -8,15 +8,17 @@ loginBtn.addEventListener("click", login);
 
 function login() {
     const req = {
-        if : id.value,
+        id : id.value,
         password : password.value,
     };
-    
+
     fetch("./login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(req),
-    });
+    })
+    .then((res) => res.json())
+    .then((res) => console.log(res));
 }
