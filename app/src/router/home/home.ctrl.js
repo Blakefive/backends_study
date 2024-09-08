@@ -1,5 +1,6 @@
 "use strict"
 
+const User = require("../../models/User");
 
 const output = {
     home: (req, res) => {
@@ -8,33 +9,22 @@ const output = {
     login: (req, res) => {
         res.render("home/login");
     },
-    
-};
-
-const users = {
-    id: ["master-id", "test-id", "blakelee"],
-    password: ["Master", "Test", "BlakeLee"],
+    register: (req, res) => {
+        res.render("home/register");
+    }
 };
 
 const process = {
-    login: (req, res) => {
-        const id = req.body.id,
-            password = req.body.password;
-
-            if (users.id.includes(id)){
-                const idx = users.id.indexOf(id);
-                if (users.password[idx] === password){
-                    return res.json({
-                        success: true,
-                    });
-                }
-            }
-
-            return res.json({
-                success: false,
-                msg: "로그인에 실패하셨습니다.",
-            });
+    login: async (req, res) => {
+        const user = new User(req.body);
+        const response = await user.login();
+        return res.json(response);
     },
+    register: async (req, res) => {
+        const user = new User(req.body);
+        const response = await user.register();
+        return res.json(response);
+    }
 };
 
 module.exports = {
